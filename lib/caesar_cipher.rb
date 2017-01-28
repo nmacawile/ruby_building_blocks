@@ -1,7 +1,7 @@
-def caesar_cipher(text, shift)
+def caesar_cipher(text, shift = 3)
 	
 	# make sure that shift value doesn't go over 26
-	if shift > 26
+	if shift.abs > 26
 		shift %= 26
 	end
 	
@@ -32,5 +32,5 @@ def caesar_cipher(text, shift)
 	encrypted
 end
 
-puts caesar_cipher("What a string!", 5)
+#puts caesar_cipher("What a string!", 5)
  #   => "Bmfy f xywnsl!"
