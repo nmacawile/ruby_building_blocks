@@ -21,7 +21,7 @@ describe "Caesar cipher" do
 		expect(caesar_cipher("zywx", 5)).to eql("edbc")
 	end
 
-	it "accepts negative shift parameter (shifts to the left instead)" do
+	it "accepts negative shift value (shifts to the left instead)" do
 		expect(caesar_cipher("fghij", -5)).to eql("abcde")
 	end
 
@@ -29,7 +29,7 @@ describe "Caesar cipher" do
 		expect(caesar_cipher("caesar", 28)).to eql("ecguct")
 	end
 
-	it "accepts negative shift parameter less than -26" do
+	it "accepts negative shift value less than -26" do
 		expect(caesar_cipher("cdefg", -28)).to eql("abcde")
 	end
 end

@@ -1,7 +1,7 @@
 module Enumerable
   	def my_each
   		if block_given?
-	        for index in 0...self.length
+	        self.length.times do |index|
 	        	yield(self[index])
 	        end
         end
@@ -9,8 +9,8 @@ module Enumerable
     
   	def my_each_with_index
   		if block_given?
-	        for index in 0...self.length
-	        	yield(index,self[index])
+	        self.length.times do |index|
+	        	yield(self[index], index)
 	        end
         end
     end
@@ -53,7 +53,7 @@ module Enumerable
     
  	def my_none?
  		if block_given?
-    		!self.my_any? do |item| yield(item) end
+    		!self.my_any? { |item| yield(item) }
     	else
     		false
     	end
@@ -64,31 +64,27 @@ module Enumerable
     	if block_given?
     		self.my_each do |item|
     			unless yield(item)
-    				count-=1
+    				count -= 1
     			end
     		end
     	end
     	count
     end
     
-    def my_map(proc=nil)
+    def my_map(proc = nil)
     	new_array = []
     	if proc
-	    	self.my_each do |item|
-	        	new_array << proc.call(item)
-	        end
+	    	self.my_each { |item| new_array << proc.call(item) }
 	    elsif block_given?
-	    	self.my_each do |item|
-	        	new_array << yield(item)
-	        end
+	    	self.my_each { |item| new_array << yield(item) }
         end
         new_array	
     end
     
-    def my_inject(initial=nil)
-    	array = initial ? self : self.drop(1)
-    	accumulator = initial ? initial : self.first
-    	
+    def my_inject(initial = nil)
+        array = self.clone
+        accumulator = initial || array.pop
+
     	array.my_each do |item|
     		accumulator = yield(accumulator, item)
     	end
@@ -98,5 +94,5 @@ module Enumerable
 end
 
 def multiply_els array
-	puts array.my_inject {|product,item| product*=item }
+	array.my_inject { |product, item| product *= item }
 end
