@@ -24,6 +24,10 @@ describe "Caesar cipher" do
 	it "accepts negative shift value (shifts to the left instead)" do
 		expect(caesar_cipher("fghij", -5)).to eql("abcde")
 	end
+	
+	it "goes back to 'Z'/'z' when the ciphered character passes 'A'/'a' respectively" do
+		expect(caesar_cipher("abcd", -4)).to eql("wxyz")
+	end
 
 	it "accepts shift value greater than 26" do
 		expect(caesar_cipher("caesar", 28)).to eql("ecguct")

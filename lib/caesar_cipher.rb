@@ -1,36 +1,15 @@
-def caesar_cipher(text, shift = 3)
-	
-	# make sure that shift value doesn't go over 26
-	if shift.abs > 26
-		shift %= 26
+def restrict_to_alphabets(shifted, unshifted)
+	if (unshifted.between?(65, 90) && shifted > 90) || (unshifted.between?(97, 122) && shifted > 122) then shifted -= 26
+	elsif (unshifted.between?(65, 90) && shifted < 65) || (unshifted.between?(97, 122) && shifted < 97) then shifted += 26
 	end
-	
-	# this var stores our output
-	encrypted = ""
-	
-	
-	text.each_char do |char|
-		
-		shifted_index = char.ord + shift
-		
-		# move the shifted_index 26 characters back
-		# if it goes beyond the alphabetic characters
-		if (char.between?("A", "Z") && shifted_index > 90) ||
-			(char.between?("a", "z") && shifted_index > 122)
-			shifted_index -= 26
-		end
-		
-		# only alphabetic characters are encrypted
-		# special characters stay the same
-		if char.between?("A", "Z")||char.between?("a", "z") 
-			encrypted += shifted_index.chr
-		else
-			encrypted += char
-		end
-	end
-	
-	encrypted
+	shifted
+end
+
+def caesar_cipher(text, shift = 3)	
+	# make sure that shift value doesn't go over 26 or under negative 26
+	shift %= 26 if shift.abs > 26	
+	text.gsub!(/[a-zA-Z]/) { |char|	restrict_to_alphabets(char.ord + shift, char.ord).chr }
 end
 
 #puts caesar_cipher("What a string!", 5)
- #   => "Bmfy f xywnsl!"
+#   => "Bmfy f xywnsl!"
